@@ -182,8 +182,8 @@ export class PdfConverter {
     dimensions: { width: number; height: number },
     margin: number,
     qualitySettings: { imageFormat: 'JPEG'; imageQuality: number } = { imageFormat: 'JPEG', imageQuality: 0.5 },
-    elementWidth: number = 0,
-    elementHeight: number = 0
+    _elementWidth: number = 0,
+    _elementHeight: number = 0
   ): Uint8Array {
     const pageWidthMm = dimensions.width;
     const pageHeightMm = dimensions.height;
@@ -192,12 +192,10 @@ export class PdfConverter {
 
     const imgData = canvas.toDataURL('image/jpeg', qualitySettings.imageQuality);
     
-    const sourceWidth = elementWidth > 0 ? elementWidth : canvas.width;
-    const sourceHeight = elementHeight > 0 ? elementHeight : canvas.height;
-    const aspectRatio = sourceHeight / sourceWidth;
+    const canvasAspectRatio = canvas.height / canvas.width;
     
-    const imgWidthMm = contentWidthMm;
-    const imgHeightMm = contentWidthMm * aspectRatio;
+    const imgWidthMm = contentWidthMm * 0.85;
+    const imgHeightMm = imgWidthMm * canvasAspectRatio;
     
     const totalPages = Math.ceil(imgHeightMm / contentHeightMm);
     
