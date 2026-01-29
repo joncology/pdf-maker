@@ -19,6 +19,7 @@ describe('OptionsPanel', () => {
     expect(screen.getByText('정렬 순서')).toBeTruthy();
     expect(screen.getByLabelText('파일명')).toBeTruthy();
     expect(screen.getByLabelText('워터마크 (선택사항)')).toBeTruthy();
+    expect(screen.getByText('PDF 품질')).toBeTruthy();
     expect(screen.getByText('PDF 생성')).toBeTruthy();
   });
 
@@ -39,6 +40,7 @@ describe('OptionsPanel', () => {
       sortOrder: 'selection',
       filename: 'test-file',
       watermark: 'confidential',
+      quality: 'medium',
     });
   });
 

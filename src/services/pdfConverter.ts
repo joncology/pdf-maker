@@ -1,9 +1,12 @@
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
+export type PdfQuality = 'high' | 'medium' | 'low';
+
 export interface PdfOptions {
   pageSize?: 'a4' | 'letter';
   margin?: number;
+  quality?: PdfQuality;
 }
 
 const PAGE_DIMENSIONS = {
@@ -14,20 +17,28 @@ const PAGE_DIMENSIONS = {
 const DEFAULT_OPTIONS: Required<PdfOptions> = {
   pageSize: 'a4',
   margin: 10,
+  quality: 'high',
+};
+
+const QUALITY_SETTINGS: Record<PdfQuality, { scale: number; imageFormat: 'PNG' | 'JPEG'; imageQuality: number }> = {
+  high: { scale: 2, imageFormat: 'PNG', imageQuality: 1.0 },
+  medium: { scale: 1.5, imageFormat: 'JPEG', imageQuality: 0.8 },
+  low: { scale: 1, imageFormat: 'JPEG', imageQuality: 0.5 },
 };
 
 export class PdfConverter {
   async htmlToPdf(html: string, options?: PdfOptions): Promise<Uint8Array> {
     const mergedOptions = { ...DEFAULT_OPTIONS, ...options };
-    const { pageSize, margin } = mergedOptions;
+    const { pageSize, margin, quality } = mergedOptions;
     const dimensions = PAGE_DIMENSIONS[pageSize];
+    const qualitySettings = QUALITY_SETTINGS[quality];
 
     const container = this.createRenderContainer(html, dimensions.width, margin);
     document.body.appendChild(container);
 
     try {
-      const canvas = await this.renderToCanvas(container);
-      const pdfBytes = this.canvasToPdf(canvas, dimensions, margin);
+      const canvas = await this.renderToCanvas(container, qualitySettings.scale);
+      const pdfBytes = this.canvasToPdf(canvas, dimensions, margin, qualitySettings);
       return pdfBytes;
     } finally {
       document.body.removeChild(container);
@@ -79,7 +90,7 @@ export class PdfConverter {
     });
   }
 
-  private async renderToCanvas(element: HTMLElement): Promise<HTMLCanvasElement> {
+  private async renderToCanvas(element: HTMLElement, scale: number = 2): Promise<HTMLCanvasElement> {
     try {
       const canvas = await html2canvas(element, {
         useCORS: true,
@@ -87,7 +98,7 @@ export class PdfConverter {
         logging: false,
         imageTimeout: 5000,
         backgroundColor: '#ffffff',
-        scale: 2,
+        scale,
         onclone: (clonedDoc) => {
           const clonedImages = clonedDoc.querySelectorAll('img');
           clonedImages.forEach((img) => {
@@ -138,7 +149,8 @@ export class PdfConverter {
   private canvasToPdf(
     canvas: HTMLCanvasElement,
     dimensions: { width: number; height: number },
-    margin: number
+    margin: number,
+    qualitySettings: { imageFormat: 'PNG' | 'JPEG'; imageQuality: number } = { imageFormat: 'PNG', imageQuality: 1.0 }
   ): Uint8Array {
     const pdf = new jsPDF({
       orientation: 'portrait',
@@ -149,7 +161,8 @@ export class PdfConverter {
     const contentWidth = dimensions.width - margin * 2;
     const contentHeight = dimensions.height - margin * 2;
 
-    const imgData = canvas.toDataURL('image/png');
+    const mimeType = qualitySettings.imageFormat === 'JPEG' ? 'image/jpeg' : 'image/png';
+    const imgData = canvas.toDataURL(mimeType, qualitySettings.imageQuality);
     const canvasAspectRatio = canvas.width / canvas.height;
     const pageAspectRatio = contentWidth / contentHeight;
 
@@ -164,7 +177,7 @@ export class PdfConverter {
       imgWidth = contentHeight * canvasAspectRatio;
     }
 
-    pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
+    pdf.addImage(imgData, qualitySettings.imageFormat, margin, margin, imgWidth, imgHeight);
 
     const arrayBuffer = pdf.output('arraybuffer');
     return new Uint8Array(arrayBuffer);

@@ -1,6 +1,6 @@
 import { PDFDocument, rgb } from 'pdf-lib';
 import { EmailData } from '../types/email';
-import { PdfConverter } from './pdfConverter';
+import { PdfConverter, PdfQuality } from './pdfConverter';
 
 export type SeparatorType = 'newPage' | 'line';
 
@@ -8,6 +8,7 @@ export interface PdfGeneratorOptions {
   separator: SeparatorType;
   watermark?: string;
   filename?: string;
+  quality?: PdfQuality;
   onProgress?: (current: number, total: number) => void;
 }
 
@@ -52,7 +53,7 @@ export class PdfGeneratorService {
     for (let i = 0; i < emails.length; i++) {
       const email = emails[i]!;
       const html = this.emailToHtml(email);
-      const pdfBytes = await this.pdfConverter.htmlToPdf(html);
+      const pdfBytes = await this.pdfConverter.htmlToPdf(html, { quality: options.quality });
 
       const emailPdfDoc = await PDFDocument.load(pdfBytes);
       const pages = await mergedPdf.copyPages(
@@ -80,7 +81,7 @@ export class PdfGeneratorService {
       })
       .join('');
 
-    const pdfBytes = await this.pdfConverter.htmlToPdf(combinedHtml);
+    const pdfBytes = await this.pdfConverter.htmlToPdf(combinedHtml, { quality: options.quality });
     const emailPdfDoc = await PDFDocument.load(pdfBytes);
     const pages = await mergedPdf.copyPages(
       emailPdfDoc,

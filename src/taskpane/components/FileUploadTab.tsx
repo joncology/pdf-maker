@@ -147,6 +147,7 @@ export const FileUploadTab: React.FC<FileUploadTabProps> = () => {
         separator: options.separator,
         watermark: options.watermark,
         filename: options.filename,
+        quality: options.quality,
         onProgress: (current, total) => {
           setProgress({ current: total + current, total: total * 2 }); // Second half
         }

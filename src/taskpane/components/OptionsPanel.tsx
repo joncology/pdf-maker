@@ -7,11 +7,14 @@ import {
   Stack,
 } from '@fluentui/react';
 
+export type PdfQuality = 'high' | 'medium' | 'low';
+
 export interface GenerateOptions {
   separator: 'newPage' | 'line';
   sortOrder: 'selection' | 'dateAsc' | 'dateDesc';
   filename: string;
   watermark: string;
+  quality: PdfQuality;
 }
 
 interface OptionsPanelProps {
@@ -30,11 +33,18 @@ const sortOptions: IDropdownOption[] = [
   { key: 'dateDesc', text: '최신 순' },
 ];
 
+const qualityOptions: IDropdownOption[] = [
+  { key: 'high', text: '고품질 (용량 큼)' },
+  { key: 'medium', text: '중간 품질 (권장)' },
+  { key: 'low', text: '저품질 (용량 작음)' },
+];
+
 export const OptionsPanel: React.FC<OptionsPanelProps> = ({ onGenerate, disabled }) => {
   const [separator, setSeparator] = React.useState<'newPage' | 'line'>('newPage');
   const [sortOrder, setSortOrder] = React.useState<'selection' | 'dateAsc' | 'dateDesc'>('selection');
   const [filename, setFilename] = React.useState<string>('emails');
   const [watermark, setWatermark] = React.useState<string>('');
+  const [quality, setQuality] = React.useState<PdfQuality>('medium');
 
   const handleGenerate = () => {
     onGenerate({
@@ -42,6 +52,7 @@ export const OptionsPanel: React.FC<OptionsPanelProps> = ({ onGenerate, disabled
       sortOrder,
       filename,
       watermark,
+      quality,
     });
   };
 
@@ -71,6 +82,13 @@ export const OptionsPanel: React.FC<OptionsPanelProps> = ({ onGenerate, disabled
         label="워터마크 (선택사항)"
         value={watermark}
         onChange={(_, newValue) => setWatermark(newValue || '')}
+        disabled={disabled}
+      />
+      <Dropdown
+        label="PDF 품질"
+        selectedKey={quality}
+        options={qualityOptions}
+        onChange={(_, option) => setQuality(option?.key as PdfQuality)}
         disabled={disabled}
       />
       <PrimaryButton

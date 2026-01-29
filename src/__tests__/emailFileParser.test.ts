@@ -512,24 +512,24 @@ describe('EmailFileParser', () => {
   });
 
   describe('file size validation', () => {
-    test('rejects single file exceeding 100MB', async () => {
-      const largeFile = createMockFile('large.eml', 101 * 1024 * 1024);
+    test('rejects single file exceeding 200MB', async () => {
+      const largeFile = createMockFile('large.eml', 201 * 1024 * 1024);
 
       await expect(parser.parseFiles([largeFile] as unknown as File[])).rejects.toThrow(
-        'File "large.eml" exceeds maximum size of 100MB'
+        'File "large.eml" exceeds maximum size of 200MB'
       );
     });
 
-    test('rejects when total size exceeds 300MB', async () => {
+    test('rejects when total size exceeds 500MB', async () => {
       const files = [
-        createMockFile('file1.eml', 100 * 1024 * 1024),
-        createMockFile('file2.eml', 100 * 1024 * 1024),
+        createMockFile('file1.eml', 200 * 1024 * 1024),
+        createMockFile('file2.eml', 200 * 1024 * 1024),
         createMockFile('file3.eml', 100 * 1024 * 1024),
         createMockFile('file4.eml', 1 * 1024 * 1024),
       ];
 
       await expect(parser.parseFiles(files as unknown as File[])).rejects.toThrow(
-        'Total file size exceeds maximum of 300MB'
+        'Total file size exceeds maximum of 500MB'
       );
     });
 

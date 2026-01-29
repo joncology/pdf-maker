@@ -2,8 +2,8 @@ import PostalMime from 'postal-mime';
 import MsgReader from '@kenjiuno/msgreader';
 import { EmailData, AttachmentInfo, SortOrder } from '../types/email';
 
-const MAX_SINGLE_FILE_SIZE = 100 * 1024 * 1024;
-const MAX_TOTAL_SIZE = 300 * 1024 * 1024;
+const MAX_SINGLE_FILE_SIZE = 200 * 1024 * 1024;
+const MAX_TOTAL_SIZE = 500 * 1024 * 1024;
 
 export class EmailFileParser {
   async parseEmlFile(file: File): Promise<EmailData> {
@@ -106,14 +106,14 @@ export class EmailFileParser {
     for (const file of files) {
       if (file.size > MAX_SINGLE_FILE_SIZE) {
         throw new Error(
-          `File "${file.name}" exceeds maximum size of 100MB`
+          `File "${file.name}" exceeds maximum size of 200MB`
         );
       }
       totalSize += file.size;
     }
 
     if (totalSize > MAX_TOTAL_SIZE) {
-      throw new Error('Total file size exceeds maximum of 300MB');
+      throw new Error('Total file size exceeds maximum of 500MB');
     }
   }
 
