@@ -224,7 +224,7 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
 
 ---
 
-- [ ] 2. Office Add-in 매니페스트 및 기본 구조 설정
+- [x] 2. Office Add-in 매니페스트 및 기본 구조 설정
 
   **What to do**:
   - `manifest.xml` 작성 (Outlook Web + Desktop 지원)
