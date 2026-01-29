@@ -152,32 +152,49 @@ export class PdfConverter {
     margin: number,
     qualitySettings: { imageFormat: 'PNG' | 'JPEG'; imageQuality: number } = { imageFormat: 'PNG', imageQuality: 1.0 }
   ): Uint8Array {
+    const contentWidth = dimensions.width - margin * 2;
+    const contentHeight = dimensions.height - margin * 2;
+
+    const mimeType = qualitySettings.imageFormat === 'JPEG' ? 'image/jpeg' : 'image/png';
+    const imgData = canvas.toDataURL(mimeType, qualitySettings.imageQuality);
+    
+    // Always fit to content width, calculate height proportionally
+    const imgWidth = contentWidth;
+    const imgHeight = (canvas.height / canvas.width) * contentWidth;
+    
+    // Calculate total height needed and how many pages
+    const totalPages = Math.ceil(imgHeight / contentHeight);
+    
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
       format: [dimensions.width, dimensions.height],
     });
 
-    const contentWidth = dimensions.width - margin * 2;
-    const contentHeight = dimensions.height - margin * 2;
-
-    const mimeType = qualitySettings.imageFormat === 'JPEG' ? 'image/jpeg' : 'image/png';
-    const imgData = canvas.toDataURL(mimeType, qualitySettings.imageQuality);
-    const canvasAspectRatio = canvas.width / canvas.height;
-    const pageAspectRatio = contentWidth / contentHeight;
-
-    let imgWidth: number;
-    let imgHeight: number;
-
-    if (canvasAspectRatio > pageAspectRatio) {
-      imgWidth = contentWidth;
-      imgHeight = contentWidth / canvasAspectRatio;
+    if (totalPages <= 1) {
+      // Single page - just add the image
+      pdf.addImage(imgData, qualitySettings.imageFormat, margin, margin, imgWidth, imgHeight);
     } else {
-      imgHeight = contentHeight;
-      imgWidth = contentHeight * canvasAspectRatio;
+      // Multiple pages - split the image across pages
+      for (let page = 0; page < totalPages; page++) {
+        if (page > 0) {
+          pdf.addPage();
+        }
+        
+        // Calculate the vertical offset for this page
+        const yOffset = -(page * contentHeight);
+        
+        // Add the full image but offset it so the right portion shows
+        pdf.addImage(
+          imgData, 
+          qualitySettings.imageFormat, 
+          margin, 
+          margin + yOffset, 
+          imgWidth, 
+          imgHeight
+        );
+      }
     }
-
-    pdf.addImage(imgData, qualitySettings.imageFormat, margin, margin, imgWidth, imgHeight);
 
     const arrayBuffer = pdf.output('arraybuffer');
     return new Uint8Array(arrayBuffer);
