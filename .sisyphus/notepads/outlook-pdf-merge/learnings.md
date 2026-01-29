@@ -64,3 +64,36 @@
 
 ### Dependencies Added
 - `canvas` (dev) - Required for jsdom to support canvas operations
+
+## Email Collector Service (2026-01-29)
+
+### Office.js API for Multi-Select Emails
+- `getSelectedItemsAsync()` returns array of `{ itemId, itemType, itemMode, subject }`
+- `loadItemByIdAsync(itemId)` loads full item details - can only load ONE at a time
+- MUST call `unloadAsync()` before loading next item
+- Maximum 100 items can be selected (API limit)
+
+### Key Properties from LoadedMessageRead
+- `itemId` - unique identifier
+- `subject` - email subject
+- `from.emailAddress` - sender email
+- `to` - array of `{ emailAddress, displayName }`
+- `dateTimeCreated` - Date object
+- `attachments` - array of `{ name, size }` (content NOT downloaded)
+- `body.getAsync(Office.CoercionType.Html, callback)` - get HTML body
+
+### Testing Office.js
+- Mock global `Office` object in beforeEach
+- Mock `Office.context.mailbox.getSelectedItemsAsync` and `loadItemByIdAsync`
+- Mock `Office.AsyncResultStatus.Succeeded/Failed` and `Office.CoercionType.Html`
+- Use callback-based mocking to simulate async Office.js API
+
+### Error Handling
+- Individual email load failures don't stop processing
+- Return partial results when some emails fail
+- Log errors but continue with remaining emails
+- Throw only for critical failures (getSelectedItemsAsync fails, >100 emails)
+
+### Files Created
+- `src/services/emailCollector.ts` - EmailCollectorService class
+- `src/__tests__/emailCollector.test.ts` - 11 tests covering all scenarios

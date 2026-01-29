@@ -265,7 +265,7 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
 
 ---
 
-- [ ] 3. 이메일 수집 서비스 구현
+- [x] 3. 이메일 수집 서비스 구현
 
   **What to do**:
   - `EmailCollectorService` 클래스 생성
