@@ -35,16 +35,21 @@ export const Standalone: React.FC = () => {
   return (
     <ThemeProvider theme={appTheme}>
       <Stack tokens={{ childrenGap: 20 }} styles={{ root: { padding: 20, maxWidth: 800, margin: '0 auto' } }}>
-        <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
-          <h1 style={{ margin: 0 }}>PDF Maker</h1>
-          <Text variant="small">이메일 파일(.eml, .msg)을 PDF로 변환</Text>
+        <Stack horizontalAlign="center" styles={{ root: { marginBottom: 10 } }}>
+          <h1 style={{ margin: 0, fontSize: 28 }}>프로젝트 메일 추출기</h1>
+          <Text variant="medium" styles={{ root: { color: '#605e5c', marginTop: 8 } }}>
+            이메일 파일(.eml, .msg)을 PDF로 변환
+          </Text>
         </Stack>
         
         <FileUploadTab standalone={true} />
         
-        <Stack styles={{ root: { marginTop: 40, borderTop: '1px solid #edebe9', paddingTop: 20 } }}>
+        <Stack styles={{ root: { marginTop: 40, borderTop: '1px solid #edebe9', paddingTop: 20 } }} tokens={{ childrenGap: 8 }}>
           <Text variant="small" styles={{ root: { color: '#605e5c' } }}>
-            Outlook Add-in으로도 사용 가능합니다. 자세한 내용은 GitHub 저장소를 참조하세요.
+            Outlook Add-in으로도 사용 가능합니다.
+          </Text>
+          <Text variant="small" styles={{ root: { color: '#605e5c' } }}>
+            문의사항: <a href="mailto:jykang@cosmax.com" style={{ color: '#0078d4' }}>jykang@cosmax.com</a>
           </Text>
         </Stack>
       </Stack>

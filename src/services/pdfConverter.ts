@@ -17,7 +17,7 @@ const PAGE_DIMENSIONS = {
 const DEFAULT_OPTIONS: Required<PdfOptions> = {
   pageSize: 'a4',
   margin: 10,
-  quality: 'high',
+  quality: 'low',
 };
 
 const QUALITY_SETTINGS: Record<PdfQuality, { scale: number; imageFormat: 'PNG' | 'JPEG'; imageQuality: number }> = {
@@ -37,8 +37,10 @@ export class PdfConverter {
     document.body.appendChild(container);
 
     try {
+      const elementWidth = container.offsetWidth;
+      const elementHeight = container.offsetHeight;
       const canvas = await this.renderToCanvas(container, qualitySettings.scale);
-      const pdfBytes = this.canvasToPdf(canvas, dimensions, margin, qualitySettings);
+      const pdfBytes = this.canvasToPdf(canvas, dimensions, margin, qualitySettings, elementWidth, elementHeight);
       return pdfBytes;
     } finally {
       document.body.removeChild(container);
@@ -150,20 +152,22 @@ export class PdfConverter {
     canvas: HTMLCanvasElement,
     dimensions: { width: number; height: number },
     margin: number,
-    qualitySettings: { imageFormat: 'PNG' | 'JPEG'; imageQuality: number } = { imageFormat: 'PNG', imageQuality: 1.0 }
+    qualitySettings: { imageFormat: 'PNG' | 'JPEG'; imageQuality: number } = { imageFormat: 'PNG', imageQuality: 1.0 },
+    elementWidth: number = 0,
+    elementHeight: number = 0
   ): Uint8Array {
-    const contentWidth = dimensions.width - margin * 2;
-    const contentHeight = dimensions.height - margin * 2;
+    const contentWidthMm = dimensions.width - margin * 2;
+    const contentHeightMm = dimensions.height - margin * 2;
 
     const mimeType = qualitySettings.imageFormat === 'JPEG' ? 'image/jpeg' : 'image/png';
     const imgData = canvas.toDataURL(mimeType, qualitySettings.imageQuality);
     
-    // Always fit to content width, calculate height proportionally
-    const imgWidth = contentWidth;
-    const imgHeight = (canvas.height / canvas.width) * contentWidth;
+    const imgWidthMm = contentWidthMm;
+    const imgHeightMm = elementWidth > 0 
+      ? (elementHeight / elementWidth) * contentWidthMm 
+      : (canvas.height / canvas.width) * contentWidthMm;
     
-    // Calculate total height needed and how many pages
-    const totalPages = Math.ceil(imgHeight / contentHeight);
+    const totalPages = Math.ceil(imgHeightMm / contentHeightMm);
     
     const pdf = new jsPDF({
       orientation: 'portrait',
@@ -172,26 +176,20 @@ export class PdfConverter {
     });
 
     if (totalPages <= 1) {
-      // Single page - just add the image
-      pdf.addImage(imgData, qualitySettings.imageFormat, margin, margin, imgWidth, imgHeight);
+      pdf.addImage(imgData, qualitySettings.imageFormat, margin, margin, imgWidthMm, imgHeightMm);
     } else {
-      // Multiple pages - split the image across pages
       for (let page = 0; page < totalPages; page++) {
         if (page > 0) {
           pdf.addPage();
         }
-        
-        // Calculate the vertical offset for this page
-        const yOffset = -(page * contentHeight);
-        
-        // Add the full image but offset it so the right portion shows
+        const yOffset = -(page * contentHeightMm);
         pdf.addImage(
           imgData, 
           qualitySettings.imageFormat, 
           margin, 
           margin + yOffset, 
-          imgWidth, 
-          imgHeight
+          imgWidthMm, 
+          imgHeightMm
         );
       }
     }

@@ -109,7 +109,7 @@ export const App: React.FC = () => {
     return (
       <ThemeProvider theme={appTheme}>
         <Stack tokens={{ childrenGap: 20 }} styles={{ root: { padding: 20 } }}>
-           <h2 style={{ margin: 0 }}>PDF Maker</h2>
+           <h2 style={{ margin: 0 }}>프로젝트 메일 추출기</h2>
            <FileUploadTab standalone={true} />
         </Stack>
       </ThemeProvider>
@@ -119,7 +119,7 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider theme={appTheme}>
       <Stack tokens={{ childrenGap: 20 }} styles={{ root: { padding: 20 } }}>
-        <h2 style={{ margin: 0 }}>PDF Maker</h2>
+        <h2 style={{ margin: 0 }}>프로젝트 메일 추출기</h2>
         
         <Pivot aria-label="PDF 생성 모드">
           <PivotItem headerText="Outlook 선택" itemKey="outlook">

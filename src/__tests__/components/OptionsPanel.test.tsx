@@ -40,7 +40,7 @@ describe('OptionsPanel', () => {
       sortOrder: 'selection',
       filename: 'test-file',
       watermark: 'confidential',
-      quality: 'medium',
+      quality: 'low',
     });
   });
 

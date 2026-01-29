@@ -34,9 +34,9 @@ const sortOptions: IDropdownOption[] = [
 ];
 
 const qualityOptions: IDropdownOption[] = [
-  { key: 'high', text: '고품질 (용량 큼)' },
-  { key: 'medium', text: '중간 품질 (권장)' },
-  { key: 'low', text: '저품질 (용량 작음)' },
+  { key: 'low', text: '저품질 (권장)' },
+  { key: 'medium', text: '중간 품질' },
+  { key: 'high', text: '고품질 (비권장)' },
 ];
 
 export const OptionsPanel: React.FC<OptionsPanelProps> = ({ onGenerate, disabled }) => {
@@ -44,7 +44,7 @@ export const OptionsPanel: React.FC<OptionsPanelProps> = ({ onGenerate, disabled
   const [sortOrder, setSortOrder] = React.useState<'selection' | 'dateAsc' | 'dateDesc'>('selection');
   const [filename, setFilename] = React.useState<string>('emails');
   const [watermark, setWatermark] = React.useState<string>('');
-  const [quality, setQuality] = React.useState<PdfQuality>('medium');
+  const [quality, setQuality] = React.useState<PdfQuality>('low');
 
   const handleGenerate = () => {
     onGenerate({
