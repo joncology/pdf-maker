@@ -204,7 +204,7 @@ Outlook에서 내보낸 .eml 및 .msg 파일을 업로드하여 PDF로 변환하
 
 ---
 
-- [ ] 2. FileUploadTab 컴포넌트 구현
+- [x] 2. FileUploadTab 컴포넌트 구현
 
   **What to do**:
   - `FileUploadTab.tsx` 컴포넌트 생성
