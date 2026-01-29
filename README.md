@@ -31,15 +31,41 @@ GitHub Pages를 사용하여 서버 구축 없이 바로 설치할 수 있습니
 
 You can install it directly using GitHub Pages without setting up a server.
 
+### 1단계: 저장소 포크 및 배포 / Step 1: Fork and Deploy
+
 1. 이 저장소를 포크(Fork)합니다. / Fork this repository.
 2. Settings → Pages 메뉴로 이동합니다. / Go to Settings → Pages.
 3. Source: GitHub Actions를 선택합니다. / Select Source: GitHub Actions.
 4. 저장소에 푸시하면 자동으로 빌드 및 배포됩니다 (Actions 탭에서 확인 가능). / Push to the repository and it will automatically build and deploy (check Actions tab).
-5. `manifest-github.xml` 파일을 다운로드합니다. / Download `manifest-github.xml`.
-6. 파일을 열고 `YOUR_USERNAME` 부분을 본인의 GitHub 사용자 이름으로 모두 변경합니다. / Open the file and replace all occurrences of `YOUR_USERNAME` with your GitHub username.
-7. Outlook에 매니페스트 파일을 업로드(Sideload)합니다. / Sideload the manifest into Outlook:
-   - Outlook Web: 설정(Settings) → 추가 기능 관리(Manage add-ins) → 내 추가 기능(Custom add-ins) → 파일에서 추가(Add from file)
-   - Outlook Desktop: 파일(File) → 추가 기능 관리(Manage Add-ins) → 내 추가 기능(Custom add-ins)
+
+### 2단계: 매니페스트 파일 준비 / Step 2: Prepare Manifest File
+
+1. `manifest-github.xml` 파일을 다운로드합니다. / Download `manifest-github.xml`.
+2. 파일을 열고 `YOUR_USERNAME` 부분을 본인의 GitHub 사용자 이름으로 모두 변경합니다. / Open the file and replace all occurrences of `YOUR_USERNAME` with your GitHub username.
+
+### 3단계: Outlook에 추가 기능 설치 / Step 3: Install Add-in to Outlook
+
+#### 방법 A: Outlook Web (권장) / Method A: Outlook Web (Recommended)
+
+1. 브라우저에서 https://aka.ms/olksideload 접속 / Go to https://aka.ms/olksideload in your browser
+2. **Add-Ins for Outlook** 대화상자가 열립니다 / The **Add-Ins for Outlook** dialog opens
+3. **My add-ins** 탭 선택 / Select **My add-ins** tab
+4. **Custom Addins** 섹션에서 **Add a custom add-in** → **Add from file** 클릭 / In **Custom Addins** section, click **Add a custom add-in** → **Add from file**
+5. 준비한 `manifest-github.xml` 파일 선택 / Select your prepared `manifest-github.xml` file
+6. **Install** 클릭 / Click **Install**
+
+#### 방법 B: 새 Outlook for Windows / Method B: New Outlook for Windows
+
+1. 브라우저에서 https://aka.ms/olksideload 접속 (Outlook Web과 동일) / Go to https://aka.ms/olksideload in your browser (same as Outlook Web)
+2. 위의 Outlook Web 방법과 동일하게 진행 / Follow the same steps as Outlook Web above
+
+#### 방법 C: 클래식 Outlook Desktop (Windows) / Method C: Classic Outlook Desktop (Windows)
+
+1. Outlook 실행 / Open Outlook
+2. 리본에서 **홈** → **모든 앱** (또는 **추가 기능 가져오기**) 클릭 / From ribbon, click **Home** → **All Apps** (or **Get Add-ins**)
+3. **내 추가 기능** 탭 선택 / Select **My add-ins** tab
+4. **사용자 지정 추가 기능** → **파일에서 추가** 클릭 / Click **Custom add-ins** → **Add from file**
+5. `manifest-github.xml` 파일 선택 / Select `manifest-github.xml` file
 
 ## Local Development (로컬 개발)
 
