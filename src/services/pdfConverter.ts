@@ -53,7 +53,7 @@ export class PdfConverter {
     marginMm: number
   ): HTMLDivElement {
     const container = document.createElement('div');
-    const contentWidthMm = (pageWidthMm - marginMm * 2) * 0.90;
+    const contentWidthMm = pageWidthMm - marginMm * 2;
     const contentWidthPx = this.mmToPx(contentWidthMm);
 
     container.style.cssText = `
@@ -65,7 +65,7 @@ export class PdfConverter {
       background: white;
       font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif;
       box-sizing: border-box;
-      overflow-x: hidden;
+      overflow: hidden;
       word-wrap: break-word;
       overflow-wrap: break-word;
     `;
@@ -185,22 +185,26 @@ export class PdfConverter {
     elementWidth: number = 0,
     elementHeight: number = 0
   ): Uint8Array {
-    const contentWidthMm = dimensions.width - margin * 2;
-    const contentHeightMm = dimensions.height - margin * 2;
+    const pageWidthMm = dimensions.width;
+    const pageHeightMm = dimensions.height;
+    const contentWidthMm = pageWidthMm - margin * 2;
+    const contentHeightMm = pageHeightMm - margin * 2;
 
     const imgData = canvas.toDataURL('image/jpeg', qualitySettings.imageQuality);
     
+    const sourceWidth = elementWidth > 0 ? elementWidth : canvas.width;
+    const sourceHeight = elementHeight > 0 ? elementHeight : canvas.height;
+    const aspectRatio = sourceHeight / sourceWidth;
+    
     const imgWidthMm = contentWidthMm;
-    const imgHeightMm = elementWidth > 0 
-      ? (elementHeight / elementWidth) * contentWidthMm 
-      : (canvas.height / canvas.width) * contentWidthMm;
+    const imgHeightMm = contentWidthMm * aspectRatio;
     
     const totalPages = Math.ceil(imgHeightMm / contentHeightMm);
     
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
-      format: [dimensions.width, dimensions.height],
+      format: [pageWidthMm, pageHeightMm],
     });
 
     if (totalPages <= 1) {
