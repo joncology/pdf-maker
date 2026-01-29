@@ -178,7 +178,7 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
 
 ---
 
-- [ ] 1. POC: 단일 이메일 HTML → PDF 변환 파이프라인 검증
+- [x] 1. POC: 단일 이메일 HTML → PDF 변환 파이프라인 검증
 
   **What to do**:
   - 샘플 이메일 HTML 준비 (실제 Outlook 이메일 HTML 구조 모방)
