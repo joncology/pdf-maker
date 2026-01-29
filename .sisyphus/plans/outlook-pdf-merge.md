@@ -367,7 +367,7 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
 
 ---
 
-- [ ] 5. Task Pane UI 구현
+- [x] 5. Task Pane UI 구현
 
   **What to do**:
   - React 컴포넌트 구조 설계
