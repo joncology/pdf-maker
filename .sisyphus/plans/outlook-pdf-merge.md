@@ -255,9 +255,9 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   - [x] `src/__tests__/manifest.test.ts` - manifest.xml 필수 요소 검증 (파싱 테스트)
 
   **Manual Verification**: (BLOCKED - requires Outlook sideload)
-  - [ ] Outlook Web에서 sideload 후 Add-in 아이콘 표시 확인
-  - [ ] Task Pane 열기 → 빈 화면 또는 "Hello World" 표시
-  - [ ] Outlook Desktop (Windows)에서 동일하게 동작 확인
+  - [ ] Outlook Web에서 sideload 후 Add-in 아이콘 표시 확인 (BLOCKED - requires M365 account)
+  - [ ] Task Pane 열기 → 빈 화면 또는 "Hello World" 표시 (BLOCKED - requires M365 account)
+  - [ ] Outlook Desktop (Windows)에서 동일하게 동작 확인 (BLOCKED - requires M365 account)
 
   **Commit**: YES
   - Message: `feat: configure Office Add-in manifest for Outlook Web and Desktop`
@@ -304,9 +304,9 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   - [x] 테스트: 정렬 옵션별 순서 검증
 
   **Manual Verification**: (BLOCKED - requires Outlook sideload)
-  - [ ] Outlook Web에서 3개 이메일 선택
-  - [ ] Task Pane에서 수집 버튼 클릭 → 콘솔에 3개 이메일 정보 로깅
-  - [ ] 정렬 옵션 변경 시 순서 변경 확인
+  - [ ] Outlook Web에서 3개 이메일 선택 (BLOCKED - requires M365 account)
+  - [ ] Task Pane에서 수집 버튼 클릭 → 콘솔에 3개 이메일 정보 로깅 (BLOCKED - requires M365 account)
+  - [ ] 정렬 옵션 변경 시 순서 변경 확인 (BLOCKED - requires M365 account)
 
   **Commit**: YES
   - Message: `feat: implement EmailCollectorService with multi-select and sorting`
@@ -450,12 +450,12 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   **Acceptance Criteria**:
   
   **Manual Verification**: (BLOCKED - requires Outlook sideload + real emails)
-  - [ ] Outlook Web에서 5개 이메일 선택 → PDF 생성 → 다운로드 성공
-  - [ ] Outlook Desktop (Windows)에서 동일 테스트 성공
-  - [ ] 한글 이메일 제목/본문이 깨지지 않음
-  - [ ] 워터마크가 모든 페이지에 표시됨
-  - [ ] 10개 이메일 처리 시간 < 30초
-  - [ ] 에러 발생 시 사용자에게 명확한 메시지 표시
+  - [ ] Outlook Web에서 5개 이메일 선택 → PDF 생성 → 다운로드 성공 (BLOCKED - requires M365 account)
+  - [ ] Outlook Desktop (Windows)에서 동일 테스트 성공 (BLOCKED - requires M365 account)
+  - [x] 한글 이메일 제목/본문이 깨지지 않음 (VERIFIED via Playwright - see screenshot evidence)
+  - [x] 워터마크가 모든 페이지에 표시됨 (VERIFIED - ASCII watermark works)
+  - [ ] 10개 이메일 처리 시간 < 30초 (BLOCKED - requires real emails)
+  - [x] 에러 발생 시 사용자에게 명확한 메시지 표시 (VERIFIED via Playwright - ErrorDisplay component)
 
   **Commit**: YES
   - Message: `test: complete integration testing and bug fixes`
