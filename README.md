@@ -7,11 +7,23 @@ This project is an Outlook Office Add-in that allows users to select multiple em
 ## Features (기능)
 
 - 다중 이메일 선택 및 PDF 병합 (최대 100개) / Select multiple emails and merge into PDF (up to 100)
+- .eml, .msg 파일 업로드 및 변환 / Upload and convert .eml, .msg files
 - 이메일 구분 옵션 (새 페이지 / 구분선) / Email separation options (New page / Separator line)
 - 정렬 옵션 (선택순 / 오래된순 / 최신순) / Sorting options (Selection order / Oldest first / Newest first)
 - 파일명 커스터마이징 / Filename customization
 - 텍스트 워터마크 / Text watermark
 - 한글 지원 / Korean language support
+
+## File Upload Feature (파일 업로드 기능)
+
+아웃룩 없이도 로컬에 저장된 이메일 파일을 직접 업로드하여 PDF로 변환할 수 있습니다.
+
+You can upload email files stored locally and convert them to PDF even without Outlook.
+
+- **지원 형식 (Supported Formats)**: .eml, .msg
+- **파일 크기 제한 (File Size Limits)**: 단일 파일 최대 100MB, 전체 합계 최대 300MB / Max 100MB per file, 300MB total.
+- **드래그 앤 드롭 (Drag & Drop)**: 파일을 작업 창으로 끌어다 놓아 간편하게 추가할 수 있습니다. / Easily add files by dragging them into the task pane.
+- **독립 실행 (Standalone Usage)**: 아웃룩이 없는 환경에서도 `src/pages/standalone.html` 페이지를 통해 기능을 사용할 수 있습니다. / Use the feature without Outlook via the `src/pages/standalone.html` page.
 
 ## Quick Install (빠른 설치) - GitHub Pages Method
 
@@ -44,11 +56,16 @@ npm run dev
 
 ## Usage (사용법)
 
+### Outlook Add-in
 1. 아웃룩에서 여러 개의 이메일을 선택합니다. / Select multiple emails in Outlook.
 2. 리본 메뉴에서 "PDF Maker" 버튼을 클릭합니다. / Click "PDF Maker" button in ribbon.
-3. 작업 창(Task Pane)에서 옵션을 설정합니다. / Configure options in task pane.
-4. "PDF 생성" 버튼을 클릭합니다. / Click "PDF 생성" button.
-5. PDF가 자동으로 다운로드됩니다. / PDF will download automatically.
+3. 작업 창(Task Pane)에서 "이메일 선택" 탭을 사용합니다. / Use the "Select Emails" tab in the task pane.
+4. 옵션을 설정하고 "PDF 생성" 버튼을 클릭합니다. / Configure options and click "PDF 생성" button.
+
+### File Upload (파일 업로드)
+1. 작업 창에서 "파일 업로드" 탭을 선택하거나 독립 실행 페이지(`src/pages/standalone.html`)를 엽니다. / Select the "File Upload" tab in the task pane or open the standalone page (`src/pages/standalone.html`).
+2. .eml 또는 .msg 파일을 드래그하거나 클릭하여 선택합니다. / Drag or click to select .eml or .msg files.
+3. 옵션을 설정하고 "PDF 생성" 버튼을 클릭합니다. / Configure options and click "PDF 생성" button.
 
 ## Tech Stack
 
@@ -58,6 +75,8 @@ npm run dev
 - html2canvas
 - jsPDF
 - pdf-lib
+- postal-mime
+- @kenjiuno/msgreader
 - Fluent UI React
 
 ## License
