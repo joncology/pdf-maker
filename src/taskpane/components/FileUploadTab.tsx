@@ -5,6 +5,7 @@ import {
   Icon,
   IconButton,
   FontIcon,
+  DefaultButton,
   mergeStyles,
   DefaultPalette,
   IStackStyles,
@@ -211,9 +212,17 @@ export const FileUploadTab: React.FC<FileUploadTabProps> = () => {
       {/* File List */}
       {files.length > 0 && (
         <Stack tokens={{ childrenGap: 10 }}>
-          <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
-            선택된 파일 ({files.length}개):
-          </Text>
+          <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+            <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
+              선택된 파일 ({files.length}개):
+            </Text>
+            <DefaultButton
+              text="전체 삭제"
+              iconProps={{ iconName: 'Delete' }}
+              onClick={() => setFiles([])}
+              styles={{ root: { height: 28, minWidth: 'auto', padding: '0 10px' } }}
+            />
+          </Stack>
           <Stack tokens={{ childrenGap: 8 }} styles={{ root: { maxHeight: '200px', overflowY: 'auto' } }}>
             {files.map((file, index) => (
               <Stack

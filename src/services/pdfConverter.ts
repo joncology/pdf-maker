@@ -61,14 +61,43 @@ export class PdfConverter {
       left: -9999px;
       top: 0;
       width: ${contentWidthPx}px;
+      max-width: ${contentWidthPx}px;
       background: white;
       font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     `;
     container.innerHTML = html;
+    
+    this.constrainContentWidth(container, contentWidthPx);
 
     this.preprocessImages(container);
 
     return container;
+  }
+
+  private constrainContentWidth(container: HTMLElement, maxWidth: number): void {
+    const allElements = container.querySelectorAll('*');
+    allElements.forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      htmlEl.style.maxWidth = '100%';
+      htmlEl.style.boxSizing = 'border-box';
+    });
+    
+    const tables = container.querySelectorAll('table');
+    tables.forEach((table) => {
+      table.style.width = '100%';
+      table.style.maxWidth = `${maxWidth}px`;
+      table.style.tableLayout = 'fixed';
+    });
+    
+    const images = container.querySelectorAll('img');
+    images.forEach((img) => {
+      img.style.maxWidth = '100%';
+      img.style.height = 'auto';
+    });
   }
 
   private preprocessImages(container: HTMLElement): void {
