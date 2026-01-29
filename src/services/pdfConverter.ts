@@ -37,10 +37,8 @@ export class PdfConverter {
     document.body.appendChild(container);
 
     try {
-      const elementWidth = container.offsetWidth;
-      const elementHeight = container.offsetHeight;
       const canvas = await this.renderToCanvas(container, qualitySettings.scale);
-      const pdfBytes = this.canvasToPdf(canvas, dimensions, margin, qualitySettings, elementWidth, elementHeight);
+      const pdfBytes = this.canvasToPdf(canvas, dimensions, margin, qualitySettings);
       return pdfBytes;
     } finally {
       document.body.removeChild(container);
@@ -61,11 +59,9 @@ export class PdfConverter {
       left: -9999px;
       top: 0;
       width: ${contentWidthPx}px;
-      max-width: ${contentWidthPx}px;
       background: white;
       font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif;
       box-sizing: border-box;
-      overflow: hidden;
       word-wrap: break-word;
       overflow-wrap: break-word;
     `;
@@ -130,6 +126,9 @@ export class PdfConverter {
         imageTimeout: 5000,
         backgroundColor: '#ffffff',
         scale,
+        width: element.scrollWidth,
+        height: element.scrollHeight,
+        windowWidth: element.scrollWidth,
         onclone: (clonedDoc) => {
           const clonedImages = clonedDoc.querySelectorAll('img');
           clonedImages.forEach((img) => {
@@ -181,9 +180,7 @@ export class PdfConverter {
     canvas: HTMLCanvasElement,
     dimensions: { width: number; height: number },
     margin: number,
-    qualitySettings: { imageFormat: 'JPEG'; imageQuality: number } = { imageFormat: 'JPEG', imageQuality: 0.5 },
-    _elementWidth: number = 0,
-    _elementHeight: number = 0
+    qualitySettings: { imageFormat: 'JPEG'; imageQuality: number } = { imageFormat: 'JPEG', imageQuality: 0.5 }
   ): Uint8Array {
     const pageWidthMm = dimensions.width;
     const pageHeightMm = dimensions.height;
@@ -194,7 +191,7 @@ export class PdfConverter {
     
     const canvasAspectRatio = canvas.height / canvas.width;
     
-    const imgWidthMm = contentWidthMm * 0.85;
+    const imgWidthMm = contentWidthMm;
     const imgHeightMm = imgWidthMm * canvasAspectRatio;
     
     const totalPages = Math.ceil(imgHeightMm / contentHeightMm);
