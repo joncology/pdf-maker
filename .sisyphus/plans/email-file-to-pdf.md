@@ -148,7 +148,7 @@ Outlook에서 내보낸 .eml 및 .msg 파일을 업로드하여 PDF로 변환하
 
 ---
 
-- [ ] 1. EmailFileParser 서비스 구현
+- [x] 1. EmailFileParser 서비스 구현
 
   **What to do**:
   - `EmailFileParser` 클래스 생성
