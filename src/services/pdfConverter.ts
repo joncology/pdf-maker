@@ -20,9 +20,9 @@ const DEFAULT_OPTIONS: Required<PdfOptions> = {
   quality: 'low',
 };
 
-const QUALITY_SETTINGS: Record<PdfQuality, { scale: number; imageFormat: 'PNG' | 'JPEG'; imageQuality: number }> = {
-  high: { scale: 2, imageFormat: 'PNG', imageQuality: 1.0 },
-  medium: { scale: 1.5, imageFormat: 'JPEG', imageQuality: 0.8 },
+const QUALITY_SETTINGS: Record<PdfQuality, { scale: number; imageFormat: 'JPEG'; imageQuality: number }> = {
+  high: { scale: 1, imageFormat: 'JPEG', imageQuality: 0.92 },
+  medium: { scale: 1, imageFormat: 'JPEG', imageQuality: 0.75 },
   low: { scale: 1, imageFormat: 'JPEG', imageQuality: 0.5 },
 };
 
@@ -152,15 +152,14 @@ export class PdfConverter {
     canvas: HTMLCanvasElement,
     dimensions: { width: number; height: number },
     margin: number,
-    qualitySettings: { imageFormat: 'PNG' | 'JPEG'; imageQuality: number } = { imageFormat: 'PNG', imageQuality: 1.0 },
+    qualitySettings: { imageFormat: 'JPEG'; imageQuality: number } = { imageFormat: 'JPEG', imageQuality: 0.5 },
     elementWidth: number = 0,
     elementHeight: number = 0
   ): Uint8Array {
     const contentWidthMm = dimensions.width - margin * 2;
     const contentHeightMm = dimensions.height - margin * 2;
 
-    const mimeType = qualitySettings.imageFormat === 'JPEG' ? 'image/jpeg' : 'image/png';
-    const imgData = canvas.toDataURL(mimeType, qualitySettings.imageQuality);
+    const imgData = canvas.toDataURL('image/jpeg', qualitySettings.imageQuality);
     
     const imgWidthMm = contentWidthMm;
     const imgHeightMm = elementWidth > 0 
@@ -176,7 +175,7 @@ export class PdfConverter {
     });
 
     if (totalPages <= 1) {
-      pdf.addImage(imgData, qualitySettings.imageFormat, margin, margin, imgWidthMm, imgHeightMm);
+      pdf.addImage(imgData, 'JPEG', margin, margin, imgWidthMm, imgHeightMm);
     } else {
       for (let page = 0; page < totalPages; page++) {
         if (page > 0) {
@@ -185,7 +184,7 @@ export class PdfConverter {
         const yOffset = -(page * contentHeightMm);
         pdf.addImage(
           imgData, 
-          qualitySettings.imageFormat, 
+          'JPEG', 
           margin, 
           margin + yOffset, 
           imgWidthMm, 
