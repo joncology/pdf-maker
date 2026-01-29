@@ -2,7 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/pdf-maker/' : '/',
   plugins: [react()],
   resolve: {
     alias: {
@@ -21,4 +22,4 @@ export default defineConfig({
     port: 3000,
     https: false,
   },
-});
+}));
