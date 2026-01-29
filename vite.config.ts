@@ -15,6 +15,7 @@ export default defineConfig(({ command }) => ({
     rollupOptions: {
       input: {
         taskpane: resolve(__dirname, 'src/taskpane/taskpane.html'),
+        standalone: resolve(__dirname, 'src/pages/standalone.html'),
       },
     },
   },

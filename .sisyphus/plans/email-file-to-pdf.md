@@ -293,7 +293,7 @@ Outlook에서 내보낸 .eml 및 .msg 파일을 업로드하여 PDF로 변환하
 
 ---
 
-- [ ] 4. Standalone 페이지 구현
+- [x] 4. Standalone 페이지 구현
 
   **What to do**:
   - `src/pages/standalone.html` 생성 (Office.js 스크립트 없음)
