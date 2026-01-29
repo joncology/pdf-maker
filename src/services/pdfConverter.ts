@@ -53,7 +53,7 @@ export class PdfConverter {
     marginMm: number
   ): HTMLDivElement {
     const container = document.createElement('div');
-    const contentWidthMm = (pageWidthMm - marginMm * 2) * 0.95;
+    const contentWidthMm = (pageWidthMm - marginMm * 2) * 0.90;
     const contentWidthPx = this.mmToPx(contentWidthMm);
 
     container.style.cssText = `
