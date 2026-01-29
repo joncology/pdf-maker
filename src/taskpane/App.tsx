@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { Stack, DefaultButton, ThemeProvider, PartialTheme, initializeIcons } from '@fluentui/react';
+import { Stack, DefaultButton, ThemeProvider, PartialTheme, initializeIcons, Pivot, PivotItem } from '@fluentui/react';
 import { OptionsPanel, GenerateOptions } from './components/OptionsPanel';
+import { FileUploadTab } from './components/FileUploadTab';
 
 initializeIcons();
 
@@ -104,35 +105,56 @@ export const App: React.FC = () => {
     setProgress({ current: 0, total: 0 });
   };
 
+  if (typeof Office === 'undefined') {
+    return (
+      <ThemeProvider theme={appTheme}>
+        <Stack tokens={{ childrenGap: 20 }} styles={{ root: { padding: 20 } }}>
+           <h2 style={{ margin: 0 }}>PDF Maker</h2>
+           <FileUploadTab standalone={true} />
+        </Stack>
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider theme={appTheme}>
       <Stack tokens={{ childrenGap: 20 }} styles={{ root: { padding: 20 } }}>
         <h2 style={{ margin: 0 }}>PDF Maker</h2>
         
-        {error && (
-          <ErrorDisplay 
-            message={error} 
-            onDismiss={() => setError(null)} 
-          />
-        )}
+        <Pivot aria-label="PDF 생성 모드">
+          <PivotItem headerText="Outlook 선택" itemKey="outlook">
+            <Stack tokens={{ childrenGap: 20 }} styles={{ root: { paddingTop: 20 } }}>
+              {error && (
+                <ErrorDisplay 
+                  message={error} 
+                  onDismiss={() => setError(null)} 
+                />
+              )}
 
-        {!isGenerating ? (
-          <OptionsPanel 
-            onGenerate={handleGenerate} 
-            disabled={false} 
-          />
-        ) : (
-          <Stack tokens={{ childrenGap: 15 }}>
-            <ProgressIndicator 
-              current={progress.current} 
-              total={progress.total} 
-            />
-            <DefaultButton 
-              text="취소" 
-              onClick={handleCancel} 
-            />
-          </Stack>
-        )}
+              {!isGenerating ? (
+                <OptionsPanel 
+                  onGenerate={handleGenerate} 
+                  disabled={false} 
+                />
+              ) : (
+                <Stack tokens={{ childrenGap: 15 }}>
+                  <ProgressIndicator 
+                    current={progress.current} 
+                    total={progress.total} 
+                  />
+                  <DefaultButton 
+                    text="취소" 
+                    onClick={handleCancel} 
+                  />
+                </Stack>
+              )}
+            </Stack>
+          </PivotItem>
+          
+          <PivotItem headerText="파일 업로드" itemKey="fileUpload">
+            <FileUploadTab />
+          </PivotItem>
+        </Pivot>
       </Stack>
     </ThemeProvider>
   );

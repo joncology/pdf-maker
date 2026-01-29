@@ -255,7 +255,7 @@ Outlook에서 내보낸 .eml 및 .msg 파일을 업로드하여 PDF로 변환하
 
 ---
 
-- [ ] 3. App.tsx 탭 UI 추가
+- [x] 3. App.tsx 탭 UI 추가
 
   **What to do**:
   - Fluent UI `Pivot` 컴포넌트로 탭 추가

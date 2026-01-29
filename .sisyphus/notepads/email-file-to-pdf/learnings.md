@@ -74,3 +74,21 @@
 - All 83 tests passing (56 existing + 27 new)
 - Build succeeds
 - TypeScript compilation clean
+
+## App.tsx Tab UI Implementation
+
+### Pattern: Conditional Rendering for Office Add-in vs Standalone
+- Used `typeof Office === 'undefined'` to detect standalone mode (e.g. browser).
+- In standalone mode, we render only the `FileUploadTab` because `EmailCollectorService` depends on Office.js and would fail.
+- This allows for easier testing and usage of the file upload feature without needing the full Outlook environment.
+
+### Pattern: Fluent UI Pivot Integration
+- Wrapped existing content in a `PivotItem` with `headerText="Outlook 선택"`.
+- Added a new `PivotItem` with `headerText="파일 업로드"` containing the `FileUploadTab`.
+- Maintained existing state management for the Outlook tab within `App.tsx`.
+- `FileUploadTab` manages its own state, ensuring separation of concerns.
+
+### Layout Considerations
+- Placed `Pivot` below the main title "PDF Maker".
+- Added `paddingTop: 20` to the Stack inside the "Outlook 선택" tab to maintain visual spacing after the tabs.
+- `FileUploadTab` has its own internal padding, so it fits well within the PivotItem.
