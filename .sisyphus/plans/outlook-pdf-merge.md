@@ -44,11 +44,11 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
 - 단위 테스트: Vitest 기반 TDD
 
 ### Definition of Done
-- [ ] Outlook Web에서 5개 이메일 선택 → PDF 생성 → 다운로드 성공
-- [ ] Outlook Desktop (Windows)에서 동일 기능 동작
-- [ ] 한글 이메일 제목/본문이 깨지지 않음
-- [ ] 워터마크 텍스트가 PDF 페이지에 표시됨
-- [ ] 모든 테스트 통과: `npm test`
+- [ ] Outlook Web에서 5개 이메일 선택 → PDF 생성 → 다운로드 성공 (BLOCKED - requires sideload)
+- [ ] Outlook Desktop (Windows)에서 동일 기능 동작 (BLOCKED - requires sideload)
+- [ ] 한글 이메일 제목/본문이 깨지지 않음 (BLOCKED - requires visual inspection)
+- [ ] 워터마크 텍스트가 PDF 페이지에 표시됨 (BLOCKED - requires visual inspection)
+- [x] 모든 테스트 통과: `npm test` (54 tests pass)
 
 ### Must Have
 - 다중 이메일 선택 (최대 100개)
@@ -152,13 +152,13 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   **Acceptance Criteria**:
   
   **TDD**:
-  - [ ] `src/__tests__/setup.test.ts` 생성
-  - [ ] `npm test` 실행 → 1개 이상 테스트 통과
+  - [x] `src/__tests__/setup.test.ts` 생성
+  - [x] `npm test` 실행 → 1개 이상 테스트 통과
 
   **Manual Verification**:
-  - [ ] `npm run build` → 에러 없이 완료
-  - [ ] `npm run start` → 로컬 서버 시작 (https://localhost:3000)
-  - [ ] 프로젝트 구조 확인:
+  - [x] `npm run build` → 에러 없이 완료
+  - [x] `npm run start` → 로컬 서버 시작 (https://localhost:3000)
+  - [x] 프로젝트 구조 확인:
     ```
     pdf-maker/
     ├── manifest.xml
@@ -208,12 +208,12 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   **Acceptance Criteria**:
   
   **TDD**:
-  - [ ] `src/__tests__/poc-html-to-pdf.test.ts` 생성
-  - [ ] 테스트: 샘플 HTML → PDF 변환 성공
-  - [ ] 테스트: 한글 텍스트 포함 HTML → PDF에서 한글 정상 표시
-  - [ ] 테스트: 외부 이미지 실패 시 placeholder 표시
+  - [x] `src/__tests__/poc-html-to-pdf.test.ts` 생성
+  - [x] 테스트: 샘플 HTML → PDF 변환 성공
+  - [x] 테스트: 한글 텍스트 포함 HTML → PDF에서 한글 정상 표시
+  - [x] 테스트: 외부 이미지 실패 시 placeholder 표시
 
-  **Manual Verification**:
+  **Manual Verification**: (BLOCKED - requires browser environment)
   - [ ] 생성된 PDF 파일을 Chrome PDF viewer에서 열기
   - [ ] 한글 텍스트가 깨지지 않고 표시되는지 확인
   - [ ] 이메일 레이아웃이 대체로 유지되는지 확인 (100% 일치 불필요)
@@ -252,9 +252,9 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   **Acceptance Criteria**:
   
   **TDD**:
-  - [ ] `src/__tests__/manifest.test.ts` - manifest.xml 필수 요소 검증 (파싱 테스트)
+  - [x] `src/__tests__/manifest.test.ts` - manifest.xml 필수 요소 검증 (파싱 테스트)
 
-  **Manual Verification**:
+  **Manual Verification**: (BLOCKED - requires Outlook sideload)
   - [ ] Outlook Web에서 sideload 후 Add-in 아이콘 표시 확인
   - [ ] Task Pane 열기 → 빈 화면 또는 "Hello World" 표시
   - [ ] Outlook Desktop (Windows)에서 동일하게 동작 확인
@@ -298,12 +298,12 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   **Acceptance Criteria**:
   
   **TDD**:
-  - [ ] `src/__tests__/emailCollector.test.ts` 생성
-  - [ ] 테스트: Office.js API 모킹하여 3개 이메일 수집 성공
-  - [ ] 테스트: 1개 이메일 로드 실패 시 나머지 2개 성공적으로 수집
-  - [ ] 테스트: 정렬 옵션별 순서 검증
+  - [x] `src/__tests__/emailCollector.test.ts` 생성
+  - [x] 테스트: Office.js API 모킹하여 3개 이메일 수집 성공
+  - [x] 테스트: 1개 이메일 로드 실패 시 나머지 2개 성공적으로 수집
+  - [x] 테스트: 정렬 옵션별 순서 검증
 
-  **Manual Verification**:
+  **Manual Verification**: (BLOCKED - requires Outlook sideload)
   - [ ] Outlook Web에서 3개 이메일 선택
   - [ ] Task Pane에서 수집 버튼 클릭 → 콘솔에 3개 이메일 정보 로깅
   - [ ] 정렬 옵션 변경 시 순서 변경 확인
@@ -349,13 +349,13 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   **Acceptance Criteria**:
   
   **TDD**:
-  - [ ] `src/__tests__/pdfGenerator.test.ts` 생성
-  - [ ] 테스트: 3개 이메일 → 1개 PDF (새 페이지 모드)
-  - [ ] 테스트: 3개 이메일 → 1개 PDF (구분선 모드)
-  - [ ] 테스트: 워터마크 텍스트 포함 PDF 생성
-  - [ ] 테스트: 진행률 콜백 호출 횟수 검증
+  - [x] `src/__tests__/pdfGenerator.test.ts` 생성
+  - [x] 테스트: 3개 이메일 → 1개 PDF (새 페이지 모드)
+  - [x] 테스트: 3개 이메일 → 1개 PDF (구분선 모드)
+  - [x] 테스트: 워터마크 텍스트 포함 PDF 생성
+  - [x] 테스트: 진행률 콜백 호출 횟수 검증
 
-  **Manual Verification**:
+  **Manual Verification**: (BLOCKED - requires PDF viewer inspection)
   - [ ] 생성된 PDF를 Adobe Reader에서 열기
   - [ ] 각 이메일이 새 페이지로 구분되는지 확인
   - [ ] 워터마크 텍스트가 우하단에 표시되는지 확인
@@ -403,15 +403,15 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
   **Acceptance Criteria**:
   
   **TDD**:
-  - [ ] `src/__tests__/components/OptionsPanel.test.tsx` 생성
-  - [ ] 테스트: 옵션 변경 시 상태 업데이트
-  - [ ] 테스트: PDF 생성 버튼 클릭 시 서비스 호출
+  - [x] `src/__tests__/components/OptionsPanel.test.tsx` 생성
+  - [x] 테스트: 옵션 변경 시 상태 업데이트
+  - [x] 테스트: PDF 생성 버튼 클릭 시 서비스 호출
 
-  **Manual Verification**:
-  - [ ] Outlook Web에서 Task Pane 열기
-  - [ ] 모든 옵션 UI 요소가 표시되는지 확인
-  - [ ] 옵션 선택 → PDF 생성 버튼 클릭 → 진행률 표시 → 다운로드 확인
-  - [ ] 취소 버튼 클릭 → 작업 중단 확인
+  **Manual Verification**: (PARTIALLY VERIFIED via Playwright)
+  - [ ] Outlook Web에서 Task Pane 열기 (BLOCKED - requires Outlook sideload)
+  - [x] 모든 옵션 UI 요소가 표시되는지 확인 (VERIFIED via Playwright - screenshot taken)
+  - [ ] 옵션 선택 → PDF 생성 버튼 클릭 → 진행률 표시 → 다운로드 확인 (BLOCKED - requires Outlook)
+  - [ ] 취소 버튼 클릭 → 작업 중단 확인 (BLOCKED - requires Outlook)
 
   **Commit**: YES
   - Message: `feat: implement Task Pane UI with options, progress, and error handling`
@@ -449,7 +449,7 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
 
   **Acceptance Criteria**:
   
-  **Manual Verification**:
+  **Manual Verification**: (BLOCKED - requires Outlook sideload + real emails)
   - [ ] Outlook Web에서 5개 이메일 선택 → PDF 생성 → 다운로드 성공
   - [ ] Outlook Desktop (Windows)에서 동일 테스트 성공
   - [ ] 한글 이메일 제목/본문이 깨지지 않음
@@ -487,19 +487,19 @@ npm run start     # Expected: Server starts on https://localhost:3000
 ```
 
 ### Final Checklist
-- [ ] **Must Have** - 모든 필수 기능 구현됨
-  - [ ] 다중 이메일 선택 → PDF 병합
-  - [ ] 이메일 구분 옵션 동작
-  - [ ] 정렬 옵션 동작
-  - [ ] 파일명 커스터마이징 동작
-  - [ ] 워터마크 표시
-  - [ ] 진행률 표시
-  - [ ] 에러 핸들링
-- [ ] **Must NOT Have** - 제외 항목 확인
-  - [ ] 모바일 지원 없음
-  - [ ] 첨부파일 내용 병합 없음
-  - [ ] 이미지 워터마크 없음
-- [ ] **Quality**
-  - [ ] 모든 테스트 통과
-  - [ ] 한글 깨짐 없음
-  - [ ] Outlook Web + Desktop 둘 다 동작
+- [x] **Must Have** - 모든 필수 기능 구현됨 (code verified)
+  - [x] 다중 이메일 선택 → PDF 병합 (EmailCollectorService + PdfGeneratorService)
+  - [x] 이메일 구분 옵션 동작 (separator: 'newPage' | 'line')
+  - [x] 정렬 옵션 동작 (sortOrder: 'selection' | 'dateAsc' | 'dateDesc')
+  - [x] 파일명 커스터마이징 동작 (filename option in OptionsPanel)
+  - [x] 워터마크 표시 (addWatermark in PdfGeneratorService)
+  - [x] 진행률 표시 (ProgressIndicator component + onProgress callback)
+  - [x] 에러 핸들링 (ErrorDisplay component + try/catch in App.tsx)
+- [x] **Must NOT Have** - 제외 항목 확인 (code verified)
+  - [x] 모바일 지원 없음 (manifest.xml only targets Web + Desktop)
+  - [x] 첨부파일 내용 병합 없음 (only attachment names extracted)
+  - [x] 이미지 워터마크 없음 (only text watermark via drawText)
+- [ ] **Quality** (requires manual verification)
+  - [x] 모든 테스트 통과 (54/54 tests pass)
+  - [ ] 한글 깨짐 없음 (BLOCKED - requires visual PDF inspection)
+  - [ ] Outlook Web + Desktop 둘 다 동작 (BLOCKED - requires sideload)

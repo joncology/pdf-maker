@@ -226,6 +226,40 @@ describe('PdfGeneratorService', () => {
       expect(htmlArg).toContain('Email 2');
       expect(htmlArg).toContain('border-top');
     });
+
+    it('should handle Korean watermark by filtering to ASCII characters', async () => {
+      const { PDFDocument } = await import('pdf-lib');
+      const emails: EmailData[] = [createMockEmail()];
+
+      const options: PdfGeneratorOptions = {
+        separator: 'newPage',
+        watermark: '기밀 CONFIDENTIAL',
+      };
+
+      await service.generatePdf(emails, options);
+
+      const mockPdfDoc = await PDFDocument.create();
+      const pages = mockPdfDoc.getPages();
+      expect(pages[0]!.drawText).toHaveBeenCalled();
+      const drawTextCall = (pages[0]!.drawText as any).mock.calls[0];
+      expect(drawTextCall[0]).toBe(' CONFIDENTIAL');
+    });
+
+    it('should skip watermark if it contains only non-ASCII characters', async () => {
+      const { PDFDocument } = await import('pdf-lib');
+      const emails: EmailData[] = [createMockEmail()];
+
+      const options: PdfGeneratorOptions = {
+        separator: 'newPage',
+        watermark: '기밀',
+      };
+
+      await service.generatePdf(emails, options);
+
+      const mockPdfDoc = await PDFDocument.create();
+      const pages = mockPdfDoc.getPages();
+      expect(pages[0]!.drawText).not.toHaveBeenCalled();
+    });
   });
 
   describe('SeparatorType', () => {

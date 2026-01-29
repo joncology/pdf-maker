@@ -142,11 +142,20 @@ export class PdfGeneratorService {
     pdfDoc: PDFDocument,
     watermarkText: string
   ): Promise<void> {
+    // Filter to ASCII-only characters to avoid WinAnsi encoding errors
+    // (e.g., Korean characters like "기밀" cause "WinAnsi cannot encode" error)
+    const safeWatermark = watermarkText.replace(/[^\x00-\x7F]/g, '');
+
+    // Skip watermark if no ASCII characters remain
+    if (!safeWatermark.trim()) {
+      return;
+    }
+
     const pages = pdfDoc.getPages();
 
     for (const page of pages) {
       const { width } = page.getSize();
-      page.drawText(watermarkText, {
+      page.drawText(safeWatermark, {
         x: width - 100,
         y: 20,
         size: 10,
