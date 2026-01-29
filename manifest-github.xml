@@ -13,9 +13,9 @@
   <DisplayName DefaultValue="PDF Maker"/>
   <Description DefaultValue="Convert and merge Outlook emails to PDF"/>
   
-  <IconUrl DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker/assets/icon-64.png"/>
-  <SupportUrl DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker"/>
+  <IconUrl DefaultValue="https://joncology.github.io/pdf-maker/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://joncology.github.io/pdf-maker/assets/icon-64.png"/>
+  <SupportUrl DefaultValue="https://joncology.github.io/pdf-maker"/>
   
   <Hosts>
     <Host Name="Mailbox"/>
@@ -30,7 +30,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker/src/taskpane/taskpane.html"/>
+        <SourceLocation DefaultValue="https://joncology.github.io/pdf-maker/src/taskpane/taskpane.html"/>
         <RequestedHeight>450</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -85,13 +85,13 @@
       
       <Resources>
         <bt:Images>
-          <bt:Image id="Icon.16x16" DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker/assets/icon-16.png"/>
-          <bt:Image id="Icon.32x32" DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker/assets/icon-32.png"/>
-          <bt:Image id="Icon.80x80" DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker/assets/icon-80.png"/>
+          <bt:Image id="Icon.16x16" DefaultValue="https://joncology.github.io/pdf-maker/assets/icon-16.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://joncology.github.io/pdf-maker/assets/icon-32.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://joncology.github.io/pdf-maker/assets/icon-80.png"/>
         </bt:Images>
         <bt:Urls>
-          <bt:Url id="Commands.Url" DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker/commands.html"/>
-          <bt:Url id="Taskpane.Url" DefaultValue="https://YOUR_USERNAME.github.io/pdf-maker/src/taskpane/taskpane.html"/>
+          <bt:Url id="Commands.Url" DefaultValue="https://joncology.github.io/pdf-maker/commands.html"/>
+          <bt:Url id="Taskpane.Url" DefaultValue="https://joncology.github.io/pdf-maker/src/taskpane/taskpane.html"/>
         </bt:Urls>
         <bt:ShortStrings>
           <bt:String id="GroupLabel" DefaultValue="PDF Maker"/>
