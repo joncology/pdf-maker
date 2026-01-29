@@ -225,3 +225,46 @@
 - No new dependencies
 - Minimal code change
 - Graceful handling of mixed Korean/English text
+
+## PDF Visual Verification via Playwright (2026-01-29)
+
+### Test Setup
+- Generated PDF programmatically using PdfGeneratorService
+- Embedded PDF in browser iframe for visual inspection
+- Used Playwright to capture screenshots
+
+### Test Data
+- 2 emails with Korean content
+- Email 1: Full Korean (subject, from, to, body, attachments)
+- Email 2: Mixed Korean/English
+- Watermark: "CONFIDENTIAL" (ASCII only due to encoding fix)
+
+### Verification Results
+1. **Korean Text Rendering**: VERIFIED
+   - Subject: "한글 제목 테스트 - 회의 안건" renders correctly
+   - Names: "김철수", "이영희" render correctly
+   - Body: Korean paragraphs and numbered list render correctly
+   - Attachments: "회의록.pdf", "발표자료.pptx" render correctly
+
+2. **Email Layout**: VERIFIED
+   - Metadata header present (From, To, Date, Attachments)
+   - Body content with proper formatting
+   - Numbered list preserved
+
+3. **Page Separation**: VERIFIED
+   - PDF shows 2 pages (1/2 in viewer)
+   - Each email on separate page (newPage separator mode)
+
+4. **Watermark**: VERIFIED
+   - Watermark generation works without error
+   - ASCII-only filter applied (Korean characters stripped)
+
+### Screenshots Captured
+- `pdf-korean-watermark-verification.png` - Page 1 with Korean email content
+- `pdf-page2-verification.png` - Page 2 indicator
+- `pdf-page2-content.png` - Navigation test
+
+### Remaining Manual Verification
+Only Outlook sideload testing remains blocked:
+- Actual email selection in Outlook Web/Desktop
+- Real Office.js API integration
