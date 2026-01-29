@@ -314,7 +314,7 @@ Outlook Web/Desktop에서 여러 이메일을 선택하여 하나의 PDF로 병�
 
 ---
 
-- [ ] 4. PDF 생성 서비스 구현
+- [x] 4. PDF 생성 서비스 구현
 
   **What to do**:
   - `PdfGeneratorService` 클래스 생성

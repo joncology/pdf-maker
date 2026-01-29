@@ -97,3 +97,43 @@
 ### Files Created
 - `src/services/emailCollector.ts` - EmailCollectorService class
 - `src/__tests__/emailCollector.test.ts` - 11 tests covering all scenarios
+
+## PDF Generator Service (2026-01-29)
+
+### Architecture
+- `PdfGeneratorService` class in `src/services/pdfGenerator.ts`
+- Reuses `PdfConverter` for HTML-to-PDF conversion
+- Uses `pdf-lib` for merging multiple PDFs and adding watermarks
+
+### pdf-lib Usage Patterns
+- `PDFDocument.create()` - Create new empty PDF
+- `PDFDocument.load(bytes)` - Load existing PDF from Uint8Array
+- `mergedPdf.copyPages(sourcePdf, sourcePdf.getPageIndices())` - Copy all pages
+- `mergedPdf.addPage(page)` - Add copied page to merged document
+- `page.getSize()` - Get page dimensions { width, height }
+- `page.drawText(text, { x, y, size, color, opacity })` - Add text (watermark)
+- `rgb(r, g, b)` - Create color (values 0-1)
+
+### Separator Strategies
+- `newPage`: Each email converted to separate PDF, then merged (preserves page breaks)
+- `line`: All emails combined into single HTML with CSS border-top separator
+
+### Email HTML Template
+- Metadata header: Subject, From, To, Date
+- Attachments: List names only (no content/size)
+- Body: Raw HTML from email
+- HTML escaping for metadata fields to prevent XSS
+
+### Testing Strategy
+- Mock both `pdf-lib` and `PdfConverter` for unit tests
+- Use module-level mock function (`mockHtmlToPdf`) for assertion access
+- Mock class must be actual class (not vi.fn().mockImplementation)
+- Non-null assertions (`!`) needed for array access in strict TypeScript
+
+### Key Files Created
+- `src/services/pdfGenerator.ts` - PdfGeneratorService class
+- `src/__tests__/pdfGenerator.test.ts` - 12 tests covering all scenarios
+
+### Types Exported
+- `SeparatorType = 'newPage' | 'line'`
+- `PdfGeneratorOptions { separator, watermark?, filename?, onProgress? }`
