@@ -19,9 +19,11 @@
   "license": "ISC",
   "dependencies": {
     "@fluentui/react": "^8.125.4",
+    "@kenjiuno/msgreader": "^1.28.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.0.0",
     "pdf-lib": "^1.17.1",
+    "postal-mime": "^2.7.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
