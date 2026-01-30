@@ -58,11 +58,14 @@ export class PdfConverter {
       left: -9999px;
       top: 0;
       width: ${contentWidthPx}px;
+      max-width: ${contentWidthPx}px;
       background: white;
       font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif;
       box-sizing: border-box;
       word-wrap: break-word;
       overflow-wrap: break-word;
+      word-break: break-word;
+      overflow: hidden;
     `;
     container.innerHTML = html;
     
@@ -79,6 +82,8 @@ export class PdfConverter {
       const htmlEl = el as HTMLElement;
       htmlEl.style.maxWidth = '100%';
       htmlEl.style.boxSizing = 'border-box';
+      htmlEl.style.wordBreak = 'break-word';
+      htmlEl.style.overflowWrap = 'break-word';
     });
     
     const tables = container.querySelectorAll('table');
@@ -86,6 +91,23 @@ export class PdfConverter {
       table.style.width = '100%';
       table.style.maxWidth = `${maxWidth}px`;
       table.style.tableLayout = 'fixed';
+      table.style.wordBreak = 'break-word';
+    });
+    
+    const tableCells = container.querySelectorAll('td, th');
+    tableCells.forEach((cell) => {
+      const htmlCell = cell as HTMLElement;
+      htmlCell.style.wordBreak = 'break-word';
+      htmlCell.style.overflowWrap = 'break-word';
+      htmlCell.style.maxWidth = '100%';
+    });
+    
+    const preElements = container.querySelectorAll('pre, code');
+    preElements.forEach((pre) => {
+      const htmlPre = pre as HTMLElement;
+      htmlPre.style.whiteSpace = 'pre-wrap';
+      htmlPre.style.wordBreak = 'break-word';
+      htmlPre.style.overflowWrap = 'break-word';
     });
     
     const images = container.querySelectorAll('img');
@@ -125,9 +147,9 @@ export class PdfConverter {
         imageTimeout: 5000,
         backgroundColor: '#ffffff',
         scale,
-        width: element.scrollWidth,
+        width: element.offsetWidth,
         height: element.scrollHeight,
-        windowWidth: element.scrollWidth,
+        windowWidth: element.offsetWidth,
         onclone: (clonedDoc) => {
           const clonedImages = clonedDoc.querySelectorAll('img');
           clonedImages.forEach((img) => {
