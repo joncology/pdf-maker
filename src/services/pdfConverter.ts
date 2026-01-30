@@ -1,7 +1,7 @@
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
-export type PdfQuality = 'high' | 'medium' | 'low';
+export type PdfQuality = 'high' | 'low';
 
 export interface PdfOptions {
   pageSize?: 'a4' | 'letter';
@@ -17,12 +17,11 @@ const PAGE_DIMENSIONS = {
 const DEFAULT_OPTIONS: Required<PdfOptions> = {
   pageSize: 'a4',
   margin: 10,
-  quality: 'low',
+  quality: 'high',
 };
 
 const QUALITY_SETTINGS: Record<PdfQuality, { scale: number; imageFormat: 'JPEG'; imageQuality: number }> = {
   high: { scale: 1, imageFormat: 'JPEG', imageQuality: 0.92 },
-  medium: { scale: 1, imageFormat: 'JPEG', imageQuality: 0.75 },
   low: { scale: 1, imageFormat: 'JPEG', imageQuality: 0.5 },
 };
 

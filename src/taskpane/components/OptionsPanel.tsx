@@ -7,7 +7,7 @@ import {
   Stack,
 } from '@fluentui/react';
 
-export type PdfQuality = 'high' | 'medium' | 'low';
+export type PdfQuality = 'high' | 'low';
 
 export interface GenerateOptions {
   separator: 'newPage' | 'line';
@@ -34,9 +34,8 @@ const sortOptions: IDropdownOption[] = [
 ];
 
 const qualityOptions: IDropdownOption[] = [
-  { key: 'low', text: '저품질 (권장)' },
-  { key: 'medium', text: '중간 품질' },
-  { key: 'high', text: '고품질 (비권장)' },
+  { key: 'high', text: '고품질' },
+  { key: 'low', text: '저품질' },
 ];
 
 export const OptionsPanel: React.FC<OptionsPanelProps> = ({ onGenerate, disabled }) => {
@@ -44,7 +43,7 @@ export const OptionsPanel: React.FC<OptionsPanelProps> = ({ onGenerate, disabled
   const [sortOrder, setSortOrder] = React.useState<'selection' | 'dateAsc' | 'dateDesc'>('selection');
   const [filename, setFilename] = React.useState<string>('emails');
   const [watermark, setWatermark] = React.useState<string>('');
-  const [quality, setQuality] = React.useState<PdfQuality>('low');
+  const [quality, setQuality] = React.useState<PdfQuality>('high');
 
   const handleGenerate = () => {
     onGenerate({
